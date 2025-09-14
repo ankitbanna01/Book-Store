@@ -5,6 +5,7 @@ on:
     paths:
       - catalog-service/**
     branches:
+      - main
       - '**'
 
 
