@@ -83,3 +83,23 @@ $ sdk install maven
 $ brew install go-task
 # OR
 $ go install github.com/go-task/task/v3/cmd/task@latest
+
+✅ Verify Installation
+$ java -version
+$ docker info
+$ docker compose version
+$ task --version
+
+🚀 How to Run the Application Locally
+git clone https://github.com/ankitbanna01/bookstore.git
+cd bookstore
+
+Start Infrastructure using Docker Compose
+task start_infra
+
+Run individual microservices from IDE
+ApiGatewayApplication
+CatalogServiceApplication
+OrderServiceApplication
+NotificationServiceApplication
+BookstoreWebappApplication
