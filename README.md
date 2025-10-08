@@ -1,92 +1,85 @@
-We will build a BookStore application using Spring Boot, Spring Cloud, and Docker.
+# 📚 BookStore Application – Microservices Architecture
 
-BookStore Microservices Architecture
+### 👨‍💻 Developed by **Ankit Mandloi**
 
-Modules
-catalog-service: This services provides REST API for managing catalog of products(books).
+---
 
-TechStack: Spring Boot, Spring Data JPA, PostgreSQL
+## 🧠 Overview
+We will build a **BookStore Application** using **Spring Boot**, **Spring Cloud**, and **Docker**.
 
-order-service: This service provides the REST API for managing orders and publishes order events to the message broker.
+This project demonstrates how to design, develop, and deploy a distributed **microservices-based architecture** with end-to-end integration between multiple services, event-driven communication, and secure APIs.
 
-TechStack: Spring Boot, Spring Security OAuth2, Keycloak, Spring Data JPA, PostgreSQL, RabbitMQ
+---
 
-notification-service: This service listens to the order events and sends notifications to the users.
+## 🏗️ BookStore Microservices Architecture
 
-TechStack: Spring Boot, RabbitMQ
+### 🧩 **Modules**
 
-api-gateway: This service is an API Gateway to the internal backend services (catalog-service, order-service).
+#### 1. 📖 catalog-service  
+Provides REST APIs for managing the catalog of products (books).  
+**Tech Stack:** Spring Boot, Spring Data JPA, PostgreSQL
 
-TechStack: Spring Boot, Spring Cloud Gateway
+---
 
-bookstore-webapp: This is the customer facing web application where customers can browse the catalog, place orders, and view their order details.
+#### 2. 🛒 order-service  
+Manages orders and publishes order events to a message broker for asynchronous communication.  
+**Tech Stack:** Spring Boot, Spring Security OAuth2, Keycloak, Spring Data JPA, PostgreSQL, RabbitMQ
 
-TechStack: Spring Boot, Spring Security OAuth2, Keycloak, Thymeleaf, Alpine.js, Bootstrap
+---
 
-Learning Objectives
-Building Spring Boot REST APIs
-Database Persistence using Spring Data JPA, Postgres, Flyway
-Event Driven Async Communication using RabbitMQ
-Implementing OAuth2-based Security using Spring Security and Keycloak
-Implementing API Gateway using Spring Cloud Gateway
-Implementing Resiliency using Resilience4j
-Job Scheduling with ShedLock-based distributed Locking
-Using RestClient, Declarative HTTP Interfaces to invoke other APIs
-Creating Aggregated Swagger Documentation at API Gateway
-Local Development Setup using Docker, Docker Compose and Testcontainers
-Testing using JUnit 5, RestAssured, Testcontainers, Awaitility, WireMock
-Building Web Application using Thymeleaf, Alpine.js, Bootstrap
-Monitoring & Observability using Grafana, Prometheus, Loki, Tempo
-Local Development Setup
-Install Java 21. Recommend using SDKMAN for managing Java versions.
-Install Docker Desktop
-Install IntelliJ IDEA or any of your favorite IDE
-Install Taskfile utility
-Install Postman or any REST Client
+#### 3. ✉️ notification-service  
+Listens to order events from RabbitMQ and sends notifications to users.  
+**Tech Stack:** Spring Boot, RabbitMQ
+
+---
+
+#### 4. 🌐 api-gateway  
+Acts as a gateway to route requests to internal backend services (catalog-service, order-service).  
+**Tech Stack:** Spring Boot, Spring Cloud Gateway
+
+---
+
+#### 5. 🛍️ bookstore-webapp  
+Customer-facing web application for browsing books, placing orders, and tracking order details.  
+**Tech Stack:** Spring Boot, Spring Security OAuth2, Keycloak, Thymeleaf, Alpine.js, Bootstrap
+
+---
+
+## 🎯 Learning Objectives
+
+✅ Building Spring Boot REST APIs  
+✅ Database persistence using Spring Data JPA, PostgreSQL, Flyway  
+✅ Event-driven asynchronous communication using RabbitMQ  
+✅ Implementing OAuth2 security with Spring Security and Keycloak  
+✅ Building API Gateway with Spring Cloud Gateway  
+✅ Implementing Resiliency using Resilience4j  
+✅ Job Scheduling with ShedLock-based distributed locking  
+✅ Inter-service communication using RestClient and HTTP interfaces  
+✅ Aggregated Swagger Documentation at API Gateway  
+✅ Local setup using Docker, Docker Compose, and Testcontainers  
+✅ Testing with JUnit 5, RestAssured, Awaitility, WireMock  
+✅ Web frontend using Thymeleaf, Alpine.js, and Bootstrap  
+✅ Monitoring using Grafana, Prometheus, Loki, and Tempo  
+
+---
+
+## ⚙️ Local Development Setup
+
+### 🧩 Prerequisites
+
+- Java 21 (Use SDKMAN for version management)  
+- Docker Desktop  
+- IntelliJ IDEA / STS IDE  
+- Taskfile utility  
+- Postman or REST Client  
+
+### 💻 Installation Commands
+
+```bash
 $ curl -s "https://get.sdkman.io" | bash
 $ source "$HOME/.sdkman/bin/sdkman-init.sh"
 $ sdk install java 24.0.1-tem
 $ sdk install maven
 $ brew install go-task
-(or)
+# OR
 $ go install github.com/go-task/task/v3/cmd/task@latest
-Verify the prerequisites
-
-$ java -version
-$ docker info
-$ docker compose version
-$ task --version
-How to run the application locally?
-# Clone the repository: 
-$ git clone https://github.com/sivaprasadreddy/spring-boot-microservices-course.git
-$ cd spring-boot-microservices-course
-Option 1: Start the infra components using Docker Compose and run microservices from IDE
-Start all the required services such as PostgreSQL, RabbitMQ, Keycloak, etc.: $ task start_infra
-
-Start individual microservices: You can start individual microservices by running their respective main entrypoint classes from IDE: ApiGatewayApplication, CatalogServiceApplication, OrderServiceApplication, NotificationServiceApplication, BookstoreWebappApplication
-
-Access the application at http://localhost:8080
-
-Catalog Service PostgreSQL DB: jdbc:postgresql://localhost:15432/postgres with credentials postgres/postgres
-Order Service PostgreSQL DB: jdbc:postgresql://localhost:25433/postgres with credentials postgres/postgres
-RabbitMQ: http://localhost:15672 with credentials guest/guest
-Keycloak: http://localhost:9191 with credentials admin/admin1234
-MailHog: http://localhost:8025
-Option 2: Working on individual microservices
-Each microservice has Testcontainers based configuration to start the required services such as PostgreSQL, RabbitMQ, Keycloak, etc automatically.
-
-You can start individual microservices by running their respective Test main entrypoint classes from IDE: TestCatalogServiceApplication, TestOrderServiceApplication, TestNotificationServiceApplication, ApiGatewayApplication, BookstoreWebappApplication.
-
-Option 3: Run all the infra components and applications using Docker Compose
-Start all: $ task start
-
-Access the application at http://localhost:8080
-
-Run the application with Observability Stack
-Start Grafana, Tempo, Loki, Prometheus using $ task start_monitoring
-Set MANAGEMENT_TRACING_ENABLED=true in deployment/docker-compose/.env file
-Restart the application using $ task restart
-Now you can access the observability stack using the following URLs:
-
-Access Grafana at http://localhost:3000
-Access Prometheus at http://localhost:9090
